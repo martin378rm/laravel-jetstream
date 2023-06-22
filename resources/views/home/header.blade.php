@@ -26,13 +26,23 @@
               <li class="nav-item">
                  <a class="nav-link" href="contact.html">Contact</a>
               </li>
+              <li class="nav-item">
+                  <a class="nav-link pl-2" href="{{url('show_cart')}}">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  </a>
+              </li>
               {{-- search --}}
               <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
+                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
               </form>
+              
+              
+             
               {{-- end search --}}
+
+              
               @if(Route::has('login'))
 
               @auth

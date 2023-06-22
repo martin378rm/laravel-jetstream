@@ -58,7 +58,20 @@
               <h6>Description : <b>{{$product->description}}</b></h6>
               <h6>Jumlah tersedia : <b>{{$product->quantity}}</b></h6>
 
-              <a href="" class="btn btn-danger">Masukkan Keranjang</a>
+              <form action="{{url('add_cart', $product->id)}}" method="POST">
+               @csrf
+
+               <div class="row">
+                  <div class="col-md-4">
+                     <input type="number" min="1" name="quantity" value="1" style="width: 80px">
+                  </div>
+                  <div class="col-md-4">
+                     <input type="submit" class="btn btn-danger" value="Masukkan Keranjang">
+                  </div>
+               </div>
+
+              </form>
+              {{-- <a href="" class="btn btn-danger">Masukkan Keranjang</a> --}}
               
            </div>
         </div>

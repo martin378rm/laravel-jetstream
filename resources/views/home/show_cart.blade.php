@@ -20,40 +20,63 @@
       <link href="{{asset('home/css/style.css')}}" rel="stylesheet" />
       <!-- responsive style -->
       <link href="{{asset('home/css/responsive.css')}}" rel="stylesheet" />
+
+      <style>
+        .center {
+          margin: auto;
+          width: 50%;
+        }
+      </style>
    </head>
    <body>
       <div class="hero_area">
          <!-- header section strats -->
          @include('home.header')
          <!-- end header section -->
-         <!-- slider section -->
-         @include('home.slider')
-         <!-- end slider section -->
-      </div>
-      <!-- why section -->
-      @include('home.why')
-      <!-- end why section -->
+        
       
-      <!-- arrival section -->
-      @include('home.arrival')
-      <!-- end arrival section -->
-      
-      <!-- product section -->
-      @include('home.product')
-      @if(session()->has('message'))
-         <div class="alert alert-success">
-           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-           {{session()->get('message')}}
-         </div>
-         @endif
-      <!-- end product section -->
+      <div class="center">
+        <table class="table table-striped table-bordered">
+          <tr class="table-info">
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Image</th>
+            <th>Action</th>
+          </tr>
 
-      <!-- subscribe section -->
-      @include('home.subscribe')
-      <!-- end subscribe section -->
-      <!-- client section -->
-      @include('home.client')
-      <!-- end client section -->
+          @php
+              $total = 0;
+          @endphp
+          @foreach ($cart as $item)
+              
+          <tr>
+            <td>{{$item->product_title}}</td>
+            <td>{{$item->quantity}}</td>
+            <td>{{$item->quantity * $item->price}}</td>
+            <td><img src="product_img/{{$item->image}}" width="150" height="150" alt=""></td>
+            <td>
+              <form action="{{url('remove_cart', $item->id)}}" method="POST">
+              
+                @csrf
+                @method('delete')
+                <button class="btn btn-danger" type="submit">delete</button>
+
+              </form>
+            </td>
+          </tr>
+          
+          
+
+            @php
+            $total += ($item->quantity * $item->price)
+            @endphp
+          @endforeach
+        </table>
+      </div>
+      
+
+      <h3 class="center">Total pembayaran :&nbsp; {{$total}}</h3>
       <!-- footer start -->
       @include('home.footer')
       <!-- footer end -->
@@ -63,6 +86,7 @@
             Distributed By <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
          
          </p>
+      </div>
       </div>
       <!-- jQery -->
       <script src="{{asset('home/js/jquery-3.4.1.min.js')}}"></script>

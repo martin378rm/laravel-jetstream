@@ -3,12 +3,24 @@
      <div class="heading_container heading_center">
         <h2>
            Our <span>products</span>
+           {{-- add to cart --}}
+           
         </h2>
      </div>
+
+     @if(session()->has('message'))
+              <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                {{session()->get('message')}}
+              </div>
+           @endif
+
      <div class="row">
 
+     
+
          @foreach ($products as $product)
-             
+         
          
         <div class="col-sm-6 col-md-4 col-lg-4">
            <div class="box">
@@ -17,9 +29,19 @@
                     <a href="{{url('product_details', $product->id)}}" class="option1">
                      Product Detail
                     </a>
-                    <a href="" class="option2">
-                    Buy Now
-                    </a>
+                    <form action="{{url('add_cart', $product->id)}}" method="POST">
+                     @csrf
+
+                     <div class="row">
+                        <div class="col-md-4">
+                           <input type="number" min="1" name="quantity" value="1" style="width: 80px">
+                        </div>
+                        <div class="col-md-4">
+                           <input type="submit" value="Keranjang ">
+                        </div>
+                     </div>
+
+                    </form>
                  </div>
               </div>
               <div class="img-box">
