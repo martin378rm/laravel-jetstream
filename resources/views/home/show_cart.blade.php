@@ -34,7 +34,14 @@
          @include('home.header')
          <!-- end header section -->
         
-      
+         @if(session()->has('message'))
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            {{session()->get('message')}}
+          </div>
+        @endif
+
+
       <div class="center">
         <table class="table table-striped table-bordered">
           <tr class="table-info">
@@ -75,8 +82,13 @@
         </table>
       </div>
       
-
       <h3 class="center">Total pembayaran :&nbsp; {{$total}}</h3>
+
+      <div class="center">
+        <h2>Proceed To Order</h2>
+        <a href="{{url('cash_order')}}" class="btn btn-danger">Cash on Delivery</a>
+        <a href="{{url('stripe', $total)}}" class="btn btn-danger">Pay Using Card</a>
+      </div>
       <!-- footer start -->
       @include('home.footer')
       <!-- footer end -->

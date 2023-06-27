@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\Product;
+
 use Exception;
-use GuzzleHttp\Psr7\Message;
+use Stripe\Charge;
+use Stripe\Stripe;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -18,6 +22,8 @@ class HomeController extends Controller
     {
         $products = DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')->select('products.*', 'category_name')->paginate(3);
+
+
         return view('home.userpage', compact('products'));
     }
     public function redirect()
@@ -120,5 +126,61 @@ class HomeController extends Controller
         $cart->delete();
 
         return redirect()->back();
+    }
+
+    public function cash_order()
+    {
+        $user = Auth::user();
+
+        $dataInCart = Cart::where('user_id', $user->id)->get();
+
+
+
+        foreach ($dataInCart as $cart) {
+            $order = new Order();
+
+            $order->name = $cart->name;
+            $order->email = $cart->email;
+            $order->phone = $cart->phone;
+            $order->address = $cart->address;
+            $order->user_id = $cart->user_id;
+            $order->product_title = $cart->product_title;
+            $order->quantity = $cart->quantity;
+            $order->price = $cart->price;
+            $order->image = $cart->image;
+            $order->product_id = $cart->product_id;
+            $order->payment_status = "COD";
+            $order->delivery_status = "PROCCESS";
+
+            $order->save();
+
+            $deleteCart = Cart::find($cart->id)->delete();
+            // $deleteCart->delete();
+        }
+
+        return redirect()->back()->with('message', 'successfully 🎈🎈🎈🎈');
+    }
+
+
+    public function stripe($total)
+    {
+        return view('home.stripe', compact('total'));
+    }
+
+
+    public function stripePost(Request $request)
+    {
+        Stripe::setApiKey(env('SECRET_KEY'));
+
+        Charge::create([
+            "amount" => 100 * 100,
+            "currency" => "usd",
+            "source" => $request->stripeToken,
+            "description" => "Test payment from itsolutionstuff.com."
+        ]);
+
+        Session::flash('success', 'Payment successful!');
+
+        return back();
     }
 }

@@ -59,3 +59,15 @@ Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
 Route::get('/show_cart', [HomeController::class, 'show_cart'])->middleware('auth');
 
 Route::delete('/remove_cart/{id}', [HomeController::class, 'remove_cart'])->middleware('auth');
+
+Route::get('/cash_order', [HomeController::class, 'cash_order']);
+
+Route::get('/stripe/{total}', [HomeController::class, 'stripe']);
+
+
+Route::post('/stripe', [HomeController::class, 'stripePost'])->name('stripe.post');
+
+
+Route::get('test', function () {
+    return view('test');
+});
