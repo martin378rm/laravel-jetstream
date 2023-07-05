@@ -4,12 +4,24 @@
     <title>Laravel - Stripe Payment Gateway Integration Example - ItSolutionStuff.com</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{asset('home/css/bootstrap.css')}}" />
+    <!-- font awesome style -->
+    <link href="{{asset('home/css/font-awesome.min.css')}}" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="{{asset('home/css/style.css')}}" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="{{asset('home/css/responsive.css')}}" rel="stylesheet" />
 </head>
 <body>
     
+    <div class="hero_area">
+        <!-- header section strats -->
+        @include('home.header')
+
 <div class="container">
     
-    <h1>Test Stripe Payment Gateway</h1>
+    <h1>Pay Using Your Card - Total Amount {{$total}}</h1>
     
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -28,7 +40,7 @@
     
                     <form 
                             role="form" 
-                            action="{{route('stripe.post')}}" 
+                            action="{{route('stripe.post', $total)}}" 
                             method="post" 
                             class="require-validation"
                             data-cc-on-file="false"
@@ -80,7 +92,7 @@
     
                         <div class="row">
                             <div class="col-xs-12">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now ($100)</button>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (Rp.{{$total}})</button>
                             </div>
                         </div>
                             

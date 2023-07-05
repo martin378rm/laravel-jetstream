@@ -37,6 +37,12 @@
                     <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
+                    {{-- <div style="padding-left: 5px">
+                        <a href="{{route('register')}}">Register</a>
+                    </div> --}}
+                    <x-button class="ml-4">
+                        <a href="{{route('register')}}">Register</a>
+                    </x-button>
                 @endif
 
                 <x-button class="ml-4">
@@ -44,5 +50,6 @@
                 </x-button>
             </div>
         </form>
+        
     </x-authentication-card>
 </x-guest-layout>

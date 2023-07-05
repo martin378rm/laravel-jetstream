@@ -168,16 +168,44 @@ class HomeController extends Controller
     }
 
 
-    public function stripePost(Request $request)
+    public function stripePost(Request $request, $total)
     {
         Stripe::setApiKey(env('SECRET_KEY'));
 
         Charge::create([
-            "amount" => 100 * 100,
+            "amount" => $total,
             "currency" => "usd",
             "source" => $request->stripeToken,
-            "description" => "Test payment from itsolutionstuff.com."
+            "description" => "Payment Successfully"
         ]);
+
+        $user = Auth::user();
+
+        $dataInCart = Cart::where('user_id', $user->id)->get();
+
+
+
+        foreach ($dataInCart as $cart) {
+            $order = new Order();
+
+            $order->name = $cart->name;
+            $order->email = $cart->email;
+            $order->phone = $cart->phone;
+            $order->address = $cart->address;
+            $order->user_id = $cart->user_id;
+            $order->product_title = $cart->product_title;
+            $order->quantity = $cart->quantity;
+            $order->price = $cart->price;
+            $order->image = $cart->image;
+            $order->product_id = $cart->product_id;
+            $order->payment_status = "PAID";
+            $order->delivery_status = "PROCCESS";
+
+            $order->save();
+
+            $deleteCart = Cart::find($cart->id)->delete();
+            // $deleteCart->delete();
+        }
 
         Session::flash('success', 'Payment successful!');
 

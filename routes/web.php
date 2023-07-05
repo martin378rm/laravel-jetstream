@@ -65,9 +65,4 @@ Route::get('/cash_order', [HomeController::class, 'cash_order']);
 Route::get('/stripe/{total}', [HomeController::class, 'stripe']);
 
 
-Route::post('/stripe', [HomeController::class, 'stripePost'])->name('stripe.post');
-
-
-Route::get('test', function () {
-    return view('test');
-});
+Route::post('/stripe/{total}', [HomeController::class, 'stripePost'])->name('stripe.post');

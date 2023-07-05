@@ -72,7 +72,7 @@
                   <select name="category_id" id="category_id" class="text_color">
                     <option value="">pilih....</option>
                     @foreach ($category as $item)
-                    <option value="{{$item->id}}" required>{{$item->id}}</option>
+                    <option value="{{$item->id}}" required>{{$item->category_name}}</option>
                     @endforeach
                   </select>
                 </div>
